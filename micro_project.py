@@ -12,7 +12,7 @@ def show_up(probability_show):
 
 def simulate_flight(nb_tickets_sold, probability_show):
     n = 0 # number of folks who bought tix that will show up
-    for i in range(1,nb_tickets_sold + 1):
+    for i in range(0,nb_tickets_sold):
         if show_up(probability_show):
             n = n + 1
     return n
@@ -37,15 +37,19 @@ voucher_cost = revenue_per_seat * 2.0 # USD
 nb_flights = 10000
 max_overbooking = 15
 
-revenue = np.zeros((nb_flights, max_overbooking + 1))
+revenue = np.zeros((nb_flights, max_overbooking))
 
 
-for tix_overbooked in range(0, max_overbooking + 1):
+
+for tix_overbooked in range(0, max_overbooking):
     nb_tickets_sold = nb_seats + tix_overbooked
-    for f in range(1, nb_flights + 1): # simulate nb_flights flights
-        revenue[f][tix_overbooked + 1] = simulate_net_revenue(nb_tickets_sold, nb_seats, probability_show, revenue_per_seat, voucher_cost)
+    for f in range(0, nb_flights): # simulate nb_flights flights
+        revenue[f][tix_overbooked] = simulate_net_revenue(nb_tickets_sold, nb_seats, probability_show, revenue_per_seat, voucher_cost)
     
 print(revenue)
 
 plt.boxplot(revenue)
 plt.show() 
+
+type(revenue)
+revenue.shape
