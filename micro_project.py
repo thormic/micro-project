@@ -35,7 +35,7 @@ nb_seats = 100
 revenue_per_seat = 350.0 # USD
 voucher_cost = revenue_per_seat * 2.0 # USD
 nb_flights = 10000
-max_overbooking = 15
+max_overbooking = 16
 
 revenue = np.zeros((nb_flights, max_overbooking))
 
@@ -48,8 +48,11 @@ for tix_overbooked in range(0, max_overbooking):
     
 print(revenue)
 
-plt.boxplot(revenue)
-plt.show() 
+# ax = plt.boxplot(revenue)
+ 
+f, ax = plt.subplots()
+l = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+ax.boxplot(revenue)
+ax.set_xticklabels(l)
 
-type(revenue)
-revenue.shape
+plt.show()
