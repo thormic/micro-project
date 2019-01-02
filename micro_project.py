@@ -44,15 +44,24 @@ revenue = np.zeros((nb_flights, max_overbooking))
 for tix_overbooked in range(0, max_overbooking):
     nb_tickets_sold = nb_seats + tix_overbooked
     for f in range(0, nb_flights): # simulate nb_flights flights
-        revenue[f][tix_overbooked] = simulate_net_revenue(nb_tickets_sold, nb_seats, probability_show, revenue_per_seat, voucher_cost)
+        revenue[f][tix_overbooked] = simulate_net_revenue(nb_tickets_sold, +
+        nb_seats, probability_show, revenue_per_seat, voucher_cost)
     
 print(revenue)
 
+col = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+index = range(10000)
+df = pd.DataFrame(data=revenue[0:,0:], index=index, columns=col)
+df.head(5)
+df.tail(5)
+
+df.describe()
+
 # ax = plt.boxplot(revenue)
  
-f, ax = plt.subplots()
-l = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-ax.boxplot(revenue)
-ax.set_xticklabels(l)
+#f, ax = plt.subplots()
+#l = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+#ax.boxplot(revenue)
+#ax.set_xticklabels(l)
 
-plt.show()
+#plt.show()

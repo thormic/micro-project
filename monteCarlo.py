@@ -56,3 +56,12 @@ def monteCarlo (probabilityShow = 0.935, nbSeats = 100, revenuePerSeat = 450.0, 
 
 for i in range(350, 500):
     monteCarlo(revenuePerSeat = i)
+
+
+col = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+index = range(10000)
+df = pd.DataFrame(data=revenue[0:,0:], index=index, columns=col)
+df.head(5)
+df.tail(5)
+
+df.describe()
