@@ -3,7 +3,9 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-def monteCarlo (probabilityShow = 0.935, nbSeats = 100, revenuePerSeat = 450.0, nbFlights = 10000, maxOverbooking = 16):
+def monteCarlo (probabilityShow = 0.935, nbSeats = 100,
+                revenuePerSeat = 450.0, nbFlights = 10000,
+                maxOverbooking = 16):
 
     def show_up(probability_show):
         if random.random() <= probability_show:
@@ -43,7 +45,8 @@ def monteCarlo (probabilityShow = 0.935, nbSeats = 100, revenuePerSeat = 450.0, 
     for tix_overbooked in range(0, max_overbooking):
         nb_tickets_sold = nb_seats + tix_overbooked
         for f in range(0, nb_flights): # simulate nb_flights flights
-            revenue[f][tix_overbooked] = simulate_net_revenue(nb_tickets_sold, nb_seats, probability_show, revenue_per_seat, voucher_cost)
+            revenue[f][tix_overbooked] = simulate_net_revenue(nb_tickets_sold, 
+                    nb_seats, probability_show, revenue_per_seat, voucher_cost)
         
     # print(revenue)
     
