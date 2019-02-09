@@ -3,16 +3,29 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+'''
+for analysis:
+- change isEU parameter
+- change arbitrarily isDomestic parameter
+- change nbSeats
+- change nbFlights
+- change isSmallFlight
+- play with probabilities
+'''
+
 def monteCarlo (probabilityShowDomestic = 0.9, probabilityShowInter = 0.9375,
                 nbSeats = 100, revenuePerSeat = 450.0, nbFlights = 10000,
-                maxOverbooking = 16, probabilityDomestic = 6/7, isEU = True,
-                isSmallFlight = True):
+                maxOverbooking = 16, probabilityDomestic = 6/7, isEU = False,
+                isSmallFlight = True, isDomestic = None):
 
-    def isDomestic(probabilityDomestic):
-        return random.random() <= probabilityDomestic
+    def isDomestic(probabilityDomestic, isDomestic):
+        if isDomestic is None:
+            return random.random() <= probabilityDomestic
+        else:
+            return isDomestic
 
     def show_up(probabilityShowDomestic, probabilityShowInter):
-        if isDomestic(probabilityDomestic):
+        if isDomestic(probabilityDomestic, isDomestic):
             return random.random() <= probabilityShowDomestic
         else:
             return random.random() <= probabilityShowInter
@@ -24,8 +37,8 @@ def monteCarlo (probabilityShowDomestic = 0.9, probabilityShowInter = 0.9375,
                 n = n + 1
         return n
 
-    def simulate_net_revenue(nb_tickets_sold, nbSeats,
-                             probabilityShowDomestic, probabilityShowInter, revenuePerSeat, voucherCost):
+    def simulate_net_revenue(nb_tickets_sold, nbSeats, probabilityShowDomestic,
+                             probabilityShowInter, revenuePerSeat, voucherCost):
         # how many ticket purchasers actually showed up?
         nb_shows = simulate_flight(nb_tickets_sold, probabilityShowDomestic, probabilityShowInter)
         # no one bumped from flight if less or equal people show up than for
@@ -39,9 +52,9 @@ def monteCarlo (probabilityShowDomestic = 0.9, probabilityShowInter = 0.9375,
 
     if isEU:
         if isSmallFlight:
-            voucherCost = 453.42 # USD
+            voucherCost = 453.42 # USD = 400 EUR
         else:
-            voucherCost = 680.13 # USD
+            voucherCost = 680.13 # USD = 600 EUR
     else:
         if isSmallFlight:
             voucherCost = min(revenuePerSeat * 2.0, 675) #USD
@@ -55,11 +68,12 @@ def monteCarlo (probabilityShowDomestic = 0.9, probabilityShowInter = 0.9375,
         for f in range(0, nbFlights): # simulate nbFlights flights
             revenue[f][tix_overbooked] = simulate_net_revenue(nb_tickets_sold,
                                                               nbSeats,
-                                                              probabilityShowDomestic, probabilityShowInter,
+                                                              probabilityShowDomestic,
+                                                              probabilityShowInter,
                                                               revenuePerSeat,
                                                               voucherCost)
 
-    # print(revenue)
+    # print(revenue) # ? print revenue matrix
 
     f, ax = plt.subplots()
     l = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
@@ -67,16 +81,14 @@ def monteCarlo (probabilityShowDomestic = 0.9, probabilityShowInter = 0.9375,
     ax.set_xticklabels(l)
     plt.show()
 
-
-    col = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
     index = range(10000)
-    df = pd.DataFrame(data=revenue[0:,0:], index=index, columns=col)
+    df = pd.DataFrame(data=revenue[0:,0:], index=index, columns=l)
 
     maxValue = max(df.mean())
     dictionary = dict(df.mean())
 
     for keys, values in dictionary.items():
         if (values == maxValue):
-            print(keys)
+            print(keys, values)
 
 monteCarlo()
