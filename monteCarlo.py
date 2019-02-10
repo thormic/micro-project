@@ -75,8 +75,11 @@ def monteCarlo (probabilityShowDomestic = 0.9, probabilityShowInter = 0.9375,
 
     # print(revenue) # ? print revenue matrix
 
+    plt.style.use('bmh')
     f, ax = plt.subplots()
     l = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+    plt.ylabel('Profit')
+    plt.xlabel('Overbooked tickets')
     ax.boxplot(revenue)
     ax.set_xticklabels(l)
     plt.show()
@@ -91,4 +94,20 @@ def monteCarlo (probabilityShowDomestic = 0.9, probabilityShowInter = 0.9375,
         if (values == maxValue):
             print(keys, values)
 
-monteCarlo()
+import time
+start = time.time()
+
+# ? first simulation EU, domestic and international
+# monteCarlo(isEU = True) # 11 overbooked tickets
+
+# ? second simulation US, domestic and international
+# monteCarlo() # 10 overbooked tickets
+
+# ? third simulation US, domestic,revenue = 100
+# monteCarlo(isDomestic = True, revenuePerSeat = 100) # 9 tickets
+
+# ? fourth simulation EUR, international, long, revenue = 700
+monteCarlo(isEU = True, isSmallFlight=False, isDomestic=False, revenuePerSeat=700)
+
+end = time.time()
+print("time passed: ", end - start)
