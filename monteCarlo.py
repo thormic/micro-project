@@ -90,15 +90,32 @@ def monteCarlo (probabilityShowDomestic = 0.9, probabilityShowInter = 0.9375,
     maxValue = max(df.mean())
     dictionary = dict(df.mean())
 
+    # dict_var = dict(df.var())
+
     for keys, values in dictionary.items():
         if (values == maxValue):
             print(keys, values)
+
+    # for keys, values in dict_var.items():
+    #     print(keys, values)
+
+    # print(np.mean(df.var()))
+
+    df_var = pd.DataFrame(df.var())
+    f, ax = plt.subplots()
+    l = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+    plt.ylabel('Variance')
+    plt.xlabel('Overbooked tickets')
+    ax.plot(df_var)
+    plt.xlim(0,15)
+    plt.tight_layout()
+    plt.show()
 
 import time
 start = time.time()
 
 # ? first simulation EU, domestic and international
-# monteCarlo(isEU = True) # 11 overbooked tickets
+monteCarlo(isEU = True) # 11 overbooked tickets
 
 # ? second simulation US, domestic and international
 # monteCarlo() # 10 overbooked tickets
@@ -107,7 +124,7 @@ start = time.time()
 # monteCarlo(isDomestic = True, revenuePerSeat = 100) # 9 tickets
 
 # ? fourth simulation EUR, international, long, revenue = 700
-monteCarlo(isEU = True, isSmallFlight=False, isDomestic=False, revenuePerSeat=700)
+# monteCarlo(isEU = True, isSmallFlight=False, isDomestic=False, revenuePerSeat=700)
 
 end = time.time()
 print("time passed: ", end - start)
